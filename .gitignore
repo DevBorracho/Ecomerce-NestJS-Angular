@@ -22,7 +22,7 @@ out/
 coverage/
 *.ngfactory.ts
 *.ngstyle.ts
-
+*pnpm-lock.yaml
 ############################
 # NESTJS
 ############################
