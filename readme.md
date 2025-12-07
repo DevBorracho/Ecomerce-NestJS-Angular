@@ -123,7 +123,7 @@ Este proyecto está construido con un stack moderno y de alto rendimiento:
 ### 1️⃣ Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/Ecomerce-Nest-Angular
+git clone https://github.com/tu-usuario/Ecomerce-NestJS-Angular
 ```
 
 ### 2️⃣ Backend
