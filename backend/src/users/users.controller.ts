@@ -13,7 +13,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { VerifyTokenGuard } from 'src/verify-token/verify-token.guard';
+import { VerifyTokenGuard } from 'src/auth/verify-token/verify-token.guard';
 import type { AuthRequest } from 'src/interfaces/authRequest';
 
 @Controller('users')
