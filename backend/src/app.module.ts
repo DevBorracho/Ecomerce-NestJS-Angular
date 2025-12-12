@@ -6,7 +6,13 @@ import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, AuthModule, ProductsModule, CategoriesModule],
+  imports: [
+    PrismaModule,
+    UsersModule,
+    AuthModule,
+    ProductsModule,
+    CategoriesModule,
+  ],
   controllers: [],
   providers: [],
 })
