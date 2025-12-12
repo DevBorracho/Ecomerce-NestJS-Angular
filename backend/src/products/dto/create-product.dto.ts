@@ -15,7 +15,7 @@ export class CreateProductDto {
   @IsOptional()
   description?: string;
   @IsNotEmpty()
-  @IsDecimal()
+  @IsNumber()
   price: number;
   @IsNotEmpty()
   @IsNumber()

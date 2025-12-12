@@ -38,6 +38,7 @@ export class ProductsController {
   }
 
   @Patch(':id')
+  @UseGuards(VerifyTokenGuard)
   update(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -49,6 +50,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @UseGuards(VerifyTokenGuard)
   remove(@Param('id') id: string, @Req() req: AuthRequest) {
     if (req.user.role !== 'ADMIN')
       throw new UnauthorizedException('no tienes permiso para esta accion');

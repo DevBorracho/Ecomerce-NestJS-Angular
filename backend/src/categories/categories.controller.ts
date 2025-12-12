@@ -8,17 +8,20 @@ import {
   Delete,
   Req,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import type { AuthRequest } from 'src/interfaces/authRequest';
+import { VerifyTokenGuard } from 'src/auth/verify-token/verify-token.guard';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
+  @UseGuards(VerifyTokenGuard)
   create(
     @Body() createCategoryDto: CreateCategoryDto,
     @Req() req: AuthRequest,
@@ -29,6 +32,7 @@ export class CategoriesController {
   }
 
   @Get()
+  @UseGuards(VerifyTokenGuard)
   findAll(@Req() req: AuthRequest) {
     if (req.user.role === 'ADMIN' || req.user.role === 'MANAGER')
       return this.categoriesService.findAll();
@@ -36,6 +40,7 @@ export class CategoriesController {
   }
 
   @Get(':id')
+  @UseGuards(VerifyTokenGuard)
   findOne(@Param('id') id: string, @Req() req: AuthRequest) {
     if (req.user.role === 'ADMIN' || req.user.role === 'MANAGER')
       return this.categoriesService.findOne(id);
@@ -43,6 +48,7 @@ export class CategoriesController {
   }
 
   @Patch(':id')
+  @UseGuards(VerifyTokenGuard)
   update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
@@ -54,6 +60,7 @@ export class CategoriesController {
   }
 
   @Delete(':id')
+  @UseGuards(VerifyTokenGuard)
   remove(@Param('id') id: string, @Req() req: AuthRequest) {
     if (req.user.role === 'ADMIN' || req.user.role === 'MANAGER')
       return this.categoriesService.remove(id);
