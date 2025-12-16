@@ -49,7 +49,7 @@ export class CartService {
   }
 
   async findOne(userId: string) {
-    return await this.Prisma.cart.findUnique({
+    const cart = await this.Prisma.cart.findUnique({
       where: { userId },
       include: {
         items: {
@@ -59,6 +59,34 @@ export class CartService {
         },
       },
     });
+
+    if (!cart) {
+      return {
+        items: [],
+        total: 0,
+      };
+    }
+
+    let total = 0;
+
+    const items = cart.items.map((item) => {
+      const subtotal = item.quantity * item.product.price;
+      total += subtotal;
+
+      return {
+        id: item.id,
+        productId: item.productId,
+        name: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity,
+        subtotal,
+      };
+    });
+
+    return {
+      items,
+      total,
+    };
   }
 
   async update(id: string, updateCartDto: UpdateCartDto) {
