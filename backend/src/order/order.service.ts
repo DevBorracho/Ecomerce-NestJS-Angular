@@ -28,6 +28,7 @@ export class OrderService {
     await this.prisma.orderItem.createMany({
       data: orderItemsData,
     });
+    await this.prisma.cart.delete({ where: { id: cart.id } });
     return order;
   }
 

@@ -1,13 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import 'dotenv/config';
-import { ValidationPipe } from '@nestjs/common';
+import * as bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import 'dotenv/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  // ⛔ Stripe webhook: RAW BODY
+  app.use('/payments/webhook', bodyParser.raw({ type: 'application/json' }));
+
+  app.use(bodyParser.json()); // para el resto de la app
+
   app.use(cookieParser());
-  await app.listen(process.env.PORT ?? 3000);
+
+  await app.listen(3000);
 }
 bootstrap();
