@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCartItemDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -95,7 +95,7 @@ export class CartService {
     });
 
     if (!cartItem) {
-      throw new Error('Cart item no encontrado');
+      throw new NotFoundException('Cart item no encontrado');
     }
     // Si la cantidad es 0 o menor → eliminar
     if ((updateCartDto.quantity as number) <= 0) {
@@ -120,7 +120,7 @@ export class CartService {
     });
 
     if (!cartItem) {
-      throw new Error('Cart item no encontrado');
+      throw new NotFoundException('Cart item no encontrado');
     }
 
     await this.Prisma.cartItem.delete({

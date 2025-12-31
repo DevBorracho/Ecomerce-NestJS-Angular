@@ -28,7 +28,7 @@ export class AuthService {
       email: user.email,
       role: user.role,
     };
-    const token = this.JWT.sign(payload);
+    const token = await this.JWT.signAsync(payload);
     return { user: user, token: token };
   }
 }
