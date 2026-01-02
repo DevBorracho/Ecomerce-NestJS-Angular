@@ -26,14 +26,38 @@ export class ProductsService {
     return product;
   }
 
-  async findAll() {
-    const products = await this.prisma.product.findMany({
-      include: {
-        categories: true,
-      },
+  async findAll(categoryName?: string, name?: string) {
+    if (typeof categoryName === 'string' && categoryName.trim().length > 0) {
+      return this.prisma.product.findMany({
+        where: {
+          categories: {
+            some: {
+              name: {
+                equals: categoryName.trim(),
+                mode: 'insensitive',
+              },
+            },
+          },
+        },
+        include: { categories: true },
+      });
+    }
+
+    if (typeof name === 'string' && name.trim().length > 0) {
+      return this.prisma.product.findMany({
+        where: {
+          name: {
+            contains: name.trim(),
+            mode: 'insensitive',
+          },
+        },
+        include: { categories: true },
+      });
+    }
+
+    return this.prisma.product.findMany({
+      include: { categories: true },
     });
-    if (!products) throw new NotFoundException();
-    return products;
   }
 
   async findOne(id: string) {
