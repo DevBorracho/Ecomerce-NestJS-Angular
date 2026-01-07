@@ -5,7 +5,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@env": ["src/environments/*"]
+      "@env": ["src/environments/environment.ts"]
     },
     "strict": true,
     "noImplicitOverride": true,

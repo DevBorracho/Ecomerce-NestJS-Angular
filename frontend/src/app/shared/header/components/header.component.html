@@ -1,0 +1,91 @@
+<header class="bg-blue-700 px-4 py-3">
+  <!-- TOP BAR -->
+  <div class="flex items-center justify-between md:grid md:grid-cols-3 md:items-center">
+    <!-- LOGO -->
+    <div
+      class="text-2xl font-bold text-white cursor-pointer"
+      routerLink="/"
+      (click)="router.navigate(['/products'])"
+    >
+      Atlas Ecommerce
+    </div>
+
+    <!-- BUSCADOR (centrado en desktop) -->
+    <div class="hidden md:flex justify-center">
+      <div class="flex gap-2">
+        <input
+          class="h-8 w-72 rounded-2xl px-3 text-black"
+          type="text"
+          placeholder="Busca tus productos"
+          #search
+          (keyup.enter)="searchProducts(search.value); search.value = ''"
+        />
+        <button
+          class="rounded-xl bg-white px-4 text-black"
+          (click)="searchProducts(search.value); search.value = ''"
+        >
+          Buscar
+        </button>
+      </div>
+    </div>
+
+    <!-- BOTÓN HAMBURGUESA (solo mobile) -->
+    <button class="text-white text-2xl md:hidden justify-self-end" (click)="toggleMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- LINKS + AUTH (desktop) -->
+    <div class="hidden md:flex justify-end gap-4 text-black">
+      <button routerLink="/products" [queryParams]="{}">Productos</button>
+      <button routerLink="/orders">Órdenes</button>
+      <button routerLink="/cart">
+        <i class="fa-solid fa-cart-shopping mr-2">{{ cart().items.length }}</i>
+      </button>
+
+      @if (!user()) {
+      <button routerLink="/login">Login</button>
+      <button routerLink="/register">Register</button>
+      } @else {
+      <span>{{ user()?.username }}</span>
+      <button (click)="logout()">Cerrar Sesión</button>
+      }
+    </div>
+  </div>
+
+  @if (menuOpen) {
+  <div class="mt-4 flex flex-col gap-4 md:hidden text-black">
+    <!-- BUSCADOR -->
+    <div class="flex gap-2 items-center mx-4">
+      <input
+        class="h-8 w-full rounded-2xl px-3 text-black"
+        type="text"
+        placeholder="Busca tus productos"
+        #search
+        (keyup.enter)="searchProducts(search.value); search.value = ''"
+      />
+      <button
+        class="rounded-xl bg-white px-4 text-black"
+        (click)="searchProducts(search.value); search.value = ''"
+      >
+        Buscar
+      </button>
+    </div>
+
+    <!-- LINKS -->
+    <button routerLink="/products" [queryParams]="{}">Productos</button>
+    <button routerLink="/orders">Órdenes</button>
+    <button routerLink="/cart">
+      <i class="fa-solid fa-cart-shopping mr-2">{{ cart().items.length }}</i>
+    </button>
+
+    <!-- AUTH -->
+    @if (!user()) {
+    <button routerLink="/login">Login</button>
+    <button routerLink="/register">Register</button>
+    } @else {
+    <span class="flex items-center justify-center">{{ user()?.username }}</span>
+    <button (click)="logout()" class="text-black hover:text-gray-200">Cerrar Sesión</button>
+    }
+  </div>
+  }
+</header>

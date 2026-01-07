@@ -53,6 +53,9 @@ export class CartService {
       where: { userId },
       include: {
         items: {
+          orderBy: {
+            id: 'asc',
+          },
           include: {
             product: true,
           },
@@ -70,8 +73,8 @@ export class CartService {
     let total = 0;
 
     const items = cart.items.map((item) => {
-      const subtotal = item.quantity * item.product.price;
-      total += subtotal;
+      const subtotal = Number(item.quantity * item.product.price).toFixed(2);
+      total += Number(subtotal);
 
       return {
         id: item.id,
@@ -79,13 +82,14 @@ export class CartService {
         name: item.product.name,
         price: item.product.price,
         quantity: item.quantity,
+        image: item.product.imageURL,
         subtotal,
       };
     });
 
     return {
       items,
-      total,
+      total: total.toFixed(2),
     };
   }
 
@@ -97,21 +101,20 @@ export class CartService {
     if (!cartItem) {
       throw new NotFoundException('Cart item no encontrado');
     }
-    // Si la cantidad es 0 o menor → eliminar
+
     if ((updateCartDto.quantity as number) <= 0) {
-      await this.Prisma.cartItem.delete({
-        where: { id },
-      });
-      return { message: 'Item eliminado del carrito' };
+      await this.Prisma.cartItem.delete({ where: { id } });
+      return this.findOne(cartItem.cartId);
     }
 
-    // Actualizar cantidad
-    return this.Prisma.cartItem.update({
+    await this.Prisma.cartItem.update({
       where: { id },
       data: {
         quantity: updateCartDto.quantity,
       },
     });
+
+    return this.findOne(cartItem.cartId);
   }
 
   async remove(id: string) {
@@ -127,7 +130,7 @@ export class CartService {
       where: { id },
     });
 
-    return { message: 'Item eliminado del carrito' };
+    return this.findOne(cartItem.cartId);
   }
 
   async deleteCart(userId: string) {

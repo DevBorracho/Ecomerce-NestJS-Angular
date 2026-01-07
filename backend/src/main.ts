@@ -13,6 +13,12 @@ async function bootstrap() {
   app.use(bodyParser.json()); // para el resto de la app
 
   app.use(cookieParser());
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
 
   await app.listen(3000);
 }
