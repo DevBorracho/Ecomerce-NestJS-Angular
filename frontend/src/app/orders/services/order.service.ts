@@ -27,4 +27,13 @@ export class OrderService {
       withCredentials: true,
     });
   }
+  paymentOrder(orderId: string) {
+    return this.http.post<{ url: string }>(
+      `${environment.API_URL}/payments/checkout`,
+      { orderId },
+      {
+        withCredentials: true,
+      }
+    );
+  }
 }

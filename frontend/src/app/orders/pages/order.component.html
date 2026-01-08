@@ -1,3 +1,10 @@
+@if (orders().length < 1) {
+<div class="flex justify-center items-center h-64">
+  <h1 class="text-2xl font-semibold text-gray-500">
+    <i class="fa-solid fa-box-open"></i> No tienes órdenes
+  </h1>
+</div>
+} @else {
 <section class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
   @for (order of orders(); track order.id) {
   <div class="bg-white rounded-xl shadow-md p-5 flex flex-col gap-4">
@@ -27,10 +34,24 @@
     <div class="flex justify-between text-lg font-semibold">
       <span>Total</span>
       <span class="text-green-600">${{ order.total }}</span>
+      <span>{{ order.createdAt | date : 'dd/MM/yyyy' }}</span>
     </div>
+    @if (order.status === 'PENDING') {
     <button class="bg-red-500 text-white px-4 py-2 rounded-lg" (click)="deleteOrder(order.id)">
-      Eliminar
+      Eliminar compra
     </button>
+    <button
+      class="bg-green-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-green-600"
+      (click)="paymentOrder(order.id)"
+    >
+      Pagar
+    </button>
+    } @else {
+    <button class="bg-red-500 text-white px-4 py-2 rounded-lg" (click)="deleteOrder(order.id)">
+      Eliminar del Historial
+    </button>
+    }
   </div>
   }
 </section>
+}

@@ -9,9 +9,17 @@ export class AuthService {
   user = signal<User | null>(null);
 
   getMe() {
-    return this.httpClient.get<User>('http://localhost:3000/users/profile', {
+    return this.httpClient.get<User>(`${environment.API_URL}/users/profile`, {
       withCredentials: true,
     });
+  }
+
+  register(email: string, password: string): Observable<User> {
+    return this.httpClient.post<User>(
+      `${environment.API_URL}/auth/register`,
+      { email, password },
+      { withCredentials: true }
+    );
   }
 
   login(email: string, password: string): Observable<User> {

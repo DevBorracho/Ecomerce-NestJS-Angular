@@ -37,8 +37,8 @@ export class PaymentsService {
         orderId: order.id,
         userId: order.userId,
       },
-      success_url: 'http://localhost:4000/success',
-      cancel_url: 'http://localhost:4000/cancel',
+      success_url: 'http://localhost:4200/orders',
+      cancel_url: 'http://localhost:4200/products',
     });
     return { url: session.url };
   }

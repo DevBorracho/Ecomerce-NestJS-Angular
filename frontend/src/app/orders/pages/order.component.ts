@@ -1,10 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { Order } from '../interfaces/order.interface';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-order',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './order.component.html',
 })
 export default class OrderComponent implements OnInit {
@@ -13,6 +13,12 @@ export default class OrderComponent implements OnInit {
   ngOnInit(): void {
     this.orderService.getOrders().subscribe((orders) => {
       this.orders.set(orders);
+    });
+  }
+  paymentOrder(id: string) {
+    this.orderService.paymentOrder(id).subscribe((response) => {
+      console.log(response);
+      window.location.href = response.url;
     });
   }
 
