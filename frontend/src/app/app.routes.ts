@@ -10,5 +10,6 @@ export const routes: Routes = [
     loadComponent: () => import('./products/pages/product.component'),
   },
   { path: 'cart', loadComponent: () => import('./cart/pages/cart.component') },
+  { path: 'orders', loadComponent: () => import('./orders/pages/order.component') },
   { path: '**', redirectTo: 'products' },
 ];
