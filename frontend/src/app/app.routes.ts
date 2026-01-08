@@ -6,6 +6,10 @@ export const routes: Routes = [
     loadComponent: () => import('./auth/pages/login/login.component'),
   },
   {
+    path: 'register',
+    loadComponent: () => import('./auth/pages/register/register.component'),
+  },
+  {
     path: 'products',
     loadComponent: () => import('./products/pages/product.component'),
   },

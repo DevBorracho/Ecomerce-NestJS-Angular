@@ -14,12 +14,15 @@ export class AuthService {
     });
   }
 
-  register(email: string, password: string): Observable<User> {
-    return this.httpClient.post<User>(
-      `${environment.API_URL}/auth/register`,
-      { email, password },
-      { withCredentials: true }
-    );
+  register(payload: { username: string; email: string; password: string }): Observable<User> {
+    const createUserDto = {
+      username: payload.username,
+      email: payload.email,
+      password: payload.password,
+    };
+    return this.httpClient.post<User>(`${environment.API_URL}/auth/register`, createUserDto, {
+      withCredentials: true,
+    });
   }
 
   login(email: string, password: string): Observable<User> {
